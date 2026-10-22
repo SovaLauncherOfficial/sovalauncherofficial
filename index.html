@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SovaLauncher - Твой мир. Твои правила</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        /* Базовые настройки и космический фон */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background: radial-gradient(circle at top, #1a1a2e 0%, #0f0f1a 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        /* Эффект свечения на фоне */
+        .glow {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            filter: blur(100px);
+            top: -200px;
+            z-index: -1;
+        }
+
+        /* Шапка сайта */
+        header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-weight: 800;
+            font-size: 24px;
+            letter-spacing: 1px;
+        }
+
+        .header-logo img {
+            height: 40px;
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.3));
+        }
+
+        .unofficial-badge {
+            background: rgba(255, 85, 85, 0.2);
+            color: #ff5555;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            border: 1px solid rgba(255, 85, 85, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Главный экран (Hero) */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin-top: 80px;
+            padding: 0 20px;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        .main-logo {
+            width: 250px;
+            height: 250px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 30px rgba(255,255,255,0.2));
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 800;
+            margin-top: 20px;
+            background: linear-gradient(90deg, #ffffff, #a0a0a0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: #b0b0b0;
+            margin-top: 10px;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        /* Стеклянные карточки (Glassmorphism) */
+        .features {
+            display: flex;
+            gap: 30px;
+            margin-top: 60px;
+            padding: 0 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 1200px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            width: 300px;
+            text-align: center;
+            transition: transform 0.3s ease, background 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .card-icon {
+            font-size: 40px;
+            margin-bottom: 20px;
+        }
+
+        .card h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .card p {
+            font-size: 14px;
+            color: #a0a0a0;
+            line-height: 1.6;
+        }
+
+        /* Секция с плюшками */
+        .perks {
+            margin-top: 80px;
+            text-align: center;
+            width: 100%;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+
+        .perks h2 {
+            font-size: 32px;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        .perks-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            text-align: left;
+        }
+
+        .perk-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 15px 20px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 15px;
+            color: #d0d0d0;
+        }
+
+        .perk-item span {
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        /* Кнопка скачивания */
+        .cta-button {
+            margin-top: 60px;
+            margin-bottom: 80px;
+            padding: 18px 50px;
+            font-size: 18px;
+            font-weight: 600;
+            color: #0f0f1a;
+            background: #ffffff;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+        }
+
+        .cta-button:hover {
+            box-shadow: 0 0 40px rgba(255, 255, 255, 0.5);
+            transform: scale(1.05);
+        }
+
+        /* Анимации */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Адаптив для телефонов */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px;
+            }
+            .hero h1 { font-size: 32px; }
+            .hero p { font-size: 16px; }
+            .main-logo { width: 180px; height: 180px; }
+            .features { flex-direction: column; align-items: center; }
+            .card { width: 100%; max-width: 350px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="glow"></div>
+
+    <!-- Шапка -->
+    <header>
+        <div class="header-logo">
+            <img src="logo.png" alt="Sova Logo">
+            SovaLauncher
+        </div>
+        <div class="unofficial-badge">Неофициальный лаунчер</div>
+    </header>
+
+    <!-- Главный экран -->
+    <section class="hero">
+        <img src="logo.png" alt="SovaLauncher Logo" class="main-logo">
+        <h1>Твой мир. Твои правила.</h1>
+        <p>Мощный и красивый лаунчер для Minecraft</p>
+    </section>
+
+    <!-- Карточки с методами входа -->
+    <section class="features">
+        <div class="card">
+            <div class="card-icon">🛡️</div>
+            <h3>Оффлайн вход</h3>
+            <p>Играй без интернета и регистрации. Просто введи свой ник и наслаждайся игрой на локальных серверах.</p>
+        </div>
+        <div class="card">
+            <div class="card-icon">🌐</div>
+            <h3>Вход через Ely.by</h3>
+            <p>Полная поддержка авторизации Ely.by. Заходи на популярные русскоязычные серверы со своим скином.</p>
+        </div>
+        <div class="card">
+            <div class="card-icon">⛏️</div>
+            <h3>Microsoft</h3>
+            <p>Официальная авторизация Microsoft. Играй на лицензионных серверах с полной поддержкой скинов и плащей.</p>
+        </div>
+    </section>
+
+    <!-- Секция с плюшками -->
+    <section class="perks">
+        <h2>🔥 Что внутри?</h2>
+        <div class="perks-list">
+            <div class="perk-item">✅ <span>Быстрая загрузка</span> игры</div>
+            <div class="perk-item">✅ <span>Красивый интерфейс</span> и анимации</div>
+            <div class="perk-item">✅ <span>Установка модов</span> в пару кликов</div>
+            <div class="perk-item">✅ <span>Собственные сборки</span> и оптимизация</div>
+            <div class="perk-item">✅ <span>Смена скинов</span> прямо в лаунчере</div>
+            <div class="perk-item">✅ <span>Поддержка всех версий</span> Minecraft</div>
+            <div class="perk-item">✅ <span>Автообновление</span> клиента</div>
+            <div class="perk-item">✅ <span>Стильная темная тема</span></div>
+        </div>
+    </section>
+
+    <!-- Кнопка (Замени ссылку на свою, если нужно) -->
+    <a href="#" class="cta-button">Скачать SovaLauncher</a>
+
+</body>
+</html>
